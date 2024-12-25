@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giới thiệu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+    <div id="header"></div>
+
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <!-- Nội dung chính -->
+        <div class="container py-5">
+            <div class="row align-items-center mb-5">
+                <!-- Hình ảnh -->
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <img style="width: 300px; height: 300px;"
+                        src="https://buatlogoonline.com/wp-content/uploads/2022/10/Logo-Iphone.jpg" alt="About Us Image"
+                        class="img-fluid rounded shadow">
+                </div>
+                <!-- Nội dung -->
+                <div class="col-md-6">
+                    <h1 class="mb-4">Về Chúng Tôi</h1>
+                    <p class="mb-3 text-muted">
+                        Chúng tôi là một công ty công nghệ chuyên cung cấp các giải pháp phần mềm tiên tiến.
+                        Từ các doanh nghiệp nhỏ đến các tập đoàn lớn, chúng tôi luôn đồng hành để tạo ra sự khác biệt
+                        thông qua các giải pháp sáng tạo và tối ưu.
+                    </p>
+                    <p class="mb-4 text-muted">
+                        Với đội ngũ chuyên gia giàu kinh nghiệm và đam mê, chúng tôi cam kết mang lại giá trị vượt trội
+                        và giải quyết mọi thách thức công nghệ mà khách hàng phải đối mặt.
+                    </p>
+                    <a href="#" class="btn btn-primary me-2">Dịch vụ của chúng tôi</a>
+                    <a href="#" class="btn btn-outline-secondary">Liên hệ</a>
+                </div>
+            </div>
+
+            <!-- Phần mở rộng thông tin -->
+            <div class="row text-center">
+                <div class="col-lg-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Tầm Nhìn</h5>
+                            <p class="card-text">
+                                Chúng tôi hướng tới việc trở thành công ty công nghệ hàng đầu với những giải pháp đổi
+                                mới,
+                                góp phần thúc đẩy sự phát triển bền vững trên toàn cầu.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Sứ Mệnh</h5>
+                            <p class="card-text">
+                                Sứ mệnh của chúng tôi là cung cấp các giải pháp công nghệ chất lượng cao,
+                                giúp khách hàng đạt được mục tiêu kinh doanh một cách hiệu quả.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Giá Trị Cốt Lõi</h5>
+                            <p class="card-text">
+                                Chúng tôi đặt trọng tâm vào đổi mới, chất lượng, và sự hài lòng của khách hàng.
+                                Luôn hướng tới việc xây dựng các mối quan hệ lâu dài và tin cậy.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Đội ngũ -->
+            <div class="mt-5">
+                <h2 class="text-center mb-4">Đội Ngũ Của Chúng Tôi</h2>
+                <div class="row text-center">
+                    <div class="col-md-4 mb-4">
+                        <img style="width: 150px;"
+                            src="https://static.vecteezy.com/system/resources/previews/000/439/863/non_2x/vector-users-icon.jpg"
+                            alt="Team Member" class="rounded-circle mb-3">
+                        <h5>Nguyễn Văn A</h5>
+                        <p class="text-muted">CEO</p>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <img style="width: 150px;" src="https://cdn-icons-png.flaticon.com/512/219/219969.png"
+                            alt="Team Member" class="rounded-circle mb-3">
+                        <h5>Trần Thị B</h5>
+                        <p class="text-muted">CTO</p>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <img style="width: 150px;"
+                            src="https://cdn3.iconfinder.com/data/icons/avatars-flat/33/man_5-512.png" alt="Team Member"
+                            class="rounded-circle mb-3">
+                        <h5>Phạm Văn C</h5>
+                        <p class="text-muted">CFO</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="footer"></div>
+
+
+    <script>
+        // Hàm để tải nội dung HTML vào trang chính
+        function loadHTML(elementId, filePath) {
+            fetch(filePath)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById(elementId).innerHTML = html;
+                });
+        }
+
+        // Tải Header và Footer
+        loadHTML('header', './layout/header.html');
+        loadHTML('footer', './layout/footer.html');
+
+
+    </script>
+
+
+
+</body>
+
+</html>

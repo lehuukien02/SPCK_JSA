@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Dashboard </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./scripts/admin/admin-auth.js"></script>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Import Header -->
+    <div id="header"></div>
+
+    <div class="container  justify-content-center align-items-center">
+        <!-- Main Content -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="text-center">Admin Dashboard</h1>
+                <p class="text-center">Manage Products and Users</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 button-container">
+                <!-- Button to trigger Create Products Modal -->
+                <button class="btn btn-primary btn-custom" data-bs-toggle="modal" data-bs-target="#createProductModal">
+                    Create Products
+                </button>
+
+                <!-- Button to trigger Create Users Modal -->
+                <button class="btn btn-success btn-custom" data-bs-toggle="modal" data-bs-target="#createUserModal">
+                    Create Users
+                </button>
+            </div>
+        </div>
+
+        <!-- Product Management -->
+        <div class="row mb-4 mt-5">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h4>Product Management</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Detail</th>
+                                    <th>Price</th>
+                                    <th>Image</th>
+                                    <th>Type</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productTableBody">
+                                <!-- Product Data Rows will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Management -->
+        <div class="row mb-4 mt-5">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h4>User Management</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th>Password</th>
+                                    <th>Avatar</th>
+                                    <th>Role</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userTableBody">
+                                <!-- User rows will be rendered dynamically here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+
+    <!-- Import Footer -->
+    <div id="footer"></div>
+
+    <!-- Modal for Product View -->
+    <div class="modal fade" id="viewProductModal" tabindex="-1" aria-labelledby="viewProductModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewProductModalLabel">View Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <strong>Name:</strong>
+                        <span id="viewProductName" class="text-muted">Sample Name</span>
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Detail:</strong>
+                        <span id="viewProductDetail" class="text-muted">Sample Detail</span>
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Price:</strong>
+                        <span id="viewProductPrice" class="text-success">$100</span>
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Type:</strong>
+                        <span id="viewProductType" class="text-muted">Electronics</span>
+                    </div>
+
+                    <div class="text-center">
+                        <img src="https://via.placeholder.com/100" id="viewProductImage" alt="product image"
+                            class="img-fluid rounded">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Product Edit -->
+    <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Edit Product Form -->
+                    <form>
+                        <div class="mb-3">
+                            <label for="editProductId" class="form-label">ID</label>
+                            <input disabled type="text" class="form-control" id="editProductId">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editProductName" class="form-label">Product Name</label>
+                            <input type="text" class="form-control" id="editProductName">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editProductDetail" class="form-label">Detail</label>
+                            <textarea class="form-control" id="editProductDetail"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editProductPrice" class="form-label">Price</label>
+                            <input type="number" class="form-control" id="editProductPrice">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editProductType" class="form-label">Product Type</label>
+                            <select class="form-control" id="editProductType" required>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Clothing">Clothing</option>
+                                <option value="Food">Food</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="saveProductChanges()">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal for User View -->
+    <div class="modal fade" id="viewUserModal" tabindex="-1" aria-labelledby="viewUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewUserModalLabel">View User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-4"><strong>Full Name:</strong></div>
+                        <div class="col-8" id="viewFullName"></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-4"><strong>Username:</strong></div>
+                        <div class="col-8" id="viewUsername"></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-4"><strong>Password:</strong></div>
+                        <div class="col-8" id="viewPassword"></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-4"><strong>Avatar:</strong></div>
+                        <div class="col-8">
+                            <img id="viewAvatar" src="https://via.placeholder.com/40" alt="User Avatar"
+                                class="img-thumbnail" />
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-4"><strong>Role:</strong></div>
+                        <div class="col-8" id="viewRole"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for User Edit -->
+    <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Edit User Form -->
+                    <div class="mb-3">
+                        <label for="editUserId" class="form-label">ID</label>
+                        <input disabled type="text" class="form-control" id="editUserId">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="editFullName" class="form-label">FullName</label>
+                        <input type="text" class="form-control" id="editFullName">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="editUsername" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="editUsername">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPassword" class="form-label">Password</label>
+                        <input class="form-control" id="editPassword">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="saveUserChanges()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Creating Products -->
+    <div class="modal fade" id="createProductModal" tabindex="-1" aria-labelledby="createProductModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createProductModalLabel">Create Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Product Creation Form -->
+                    <form id="productForm">
+                        <div class="mb-3">
+                            <label for="productName" class="form-label">Product Name</label>
+                            <input type="text" class="form-control" id="productName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productDetail" class="form-label">Product Detail</label>
+                            <textarea class="form-control" id="productDetail" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productPrice" class="form-label">Price</label>
+                            <input type="number" class="form-control" id="productPrice" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productImage" class="form-label">Image URL</label>
+                            <input type="text" class="form-control" id="productImage" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productType" class="form-label">Product Type</label>
+                            <select class="form-control" id="productType" required>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Clothing">Clothing</option>
+                                <option value="Food">Food</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveProductBtn">Save Product</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Creating Users -->
+    <div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createUserModalLabel">Create User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Add your form fields here -->
+                    <form>
+                        <div class="mb-3">
+                            <label for="userFullName" class="form-label">Full Name</label>
+                            <input required class="form-control" id="userFullName" placeholder="Enter fullname">
+                        </div>
+                        <div class="mb-3">
+                            <label for="userName" class="form-label">Username</label>
+                            <input required type="text" class="form-control" id="userName" placeholder="Enter username">
+                        </div>
+                        <div class="mb-3">
+                            <label for="userPassword" class="form-label">Password</label>
+                            <input required type="password" class="form-control" id="userPassword"
+                                placeholder="Enter password">
+                        </div>
+                        <div class="mb-3">
+                            <label for="userAvatar" class="form-label">Avatar</label>
+                            <input required class="form-control" id="userAvatar" placeholder="Enter link">
+                        </div>
+                        <!-- Add more fields as needed -->
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" onclick="saveUser()">Save User</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Hàm để tải nội dung HTML vào trang chính
+        function loadHTML(elementId, filePath) {
+            fetch(filePath)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById(elementId).innerHTML = html;
+                });
+        }
+
+        // Tải Header và Footer
+        loadHTML('header', './layout/header.html');
+        loadHTML('footer', './layout/footer.html');
+
+
+    </script>
+
+
+    <script src="./scripts/admin/admin-product.js"></script>
+    <script src="./scripts/admin/admin-user.js"></script>
+
+</body>
+
+</html>

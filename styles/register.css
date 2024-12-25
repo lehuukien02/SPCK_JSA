@@ -1,0 +1,50 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+/* Sử dụng Flexbox để căn chỉnh content */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.card {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: #007bff;
+}
+
+.card-footer {
+    background-color: #f8f9fa;
+}
+
+.form-control {
+    border-radius: 25px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    border-radius: 25px;
+    padding: 12px;
+    font-size: 1.1rem;
+}
+
+.card-body {
+    padding: 30px;
+}
+
+.card-footer a {
+    color: #007bff;
+}
+
+.card-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Đảm bảo rằng body và html có chiều cao 100% */

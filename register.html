@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./styles/register.css" rel="stylesheet"> <!-- Chèn link tới file CSS của bạn -->
+</head>
+
+<body class="bg-light">
+    <!-- Import Header -->
+    <div id="header"></div>
+
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card shadow-lg" style="max-width: 400px; width: 100%;">
+            <div class="card-header bg-primary text-white text-center py-4">
+                <h3>Đăng Ký</h3>
+            </div>
+            <div class="card-body p-4">
+                <form id="registerForm">
+                    <div class="mb-3">
+                        <label for="fullname" class="form-label">Họ và Tên</label>
+                        <input type="text" class="form-control" id="fullname" placeholder="Nhập họ và tên" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Tên Đăng Nhập</label>
+                        <input type="text" class="form-control" id="username" placeholder="Nhập tên đăng nhập" required>
+                        <div id="usernameError" class="text-danger" style="display: none;">Tên đăng nhập đã tồn tại!
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mật Khẩu</label>
+                        <input type="password" class="form-control" id="password" placeholder="Nhập mật khẩu" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="avatar" class="form-label">Avatar</label>
+                        <input class="form-control" id="avatar" placeholder="Link Image" required>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">Đăng Ký</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <small>Đã có tài khoản? <a href="./login.html">Đăng Nhập</a></small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Footer -->
+    <div id="footer"></div>
+
+    <script>
+        // Hàm để tải nội dung HTML vào trang chính
+        function loadHTML(elementId, filePath) {
+            fetch(filePath)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById(elementId).innerHTML = html;
+                });
+        }
+
+        // Tải Header và Footer
+        loadHTML('header', './layout/header.html');
+        loadHTML('footer', './layout/footer.html');
+
+    </script>
+
+    <script>
+        // Kiểm tra xem username đã tồn tại trong localStorage chưa
+        function isUsernameTaken(username) {
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            return users.some(user => user.username === username);
+        }
+
+        // Xử lý form đăng ký
+        document.getElementById('registerForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Ngăn chặn hành động mặc định của form
+            const id = `user-${Date.now()}`;
+            const fullName = document.getElementById('fullname').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const avatar = document.getElementById('avatar').value;
+            const role = 'User';
+
+            // Kiểm tra username trùng
+            if (isUsernameTaken(username)) {
+                document.getElementById('usernameError').style.display = 'block'; // Hiển thị thông báo lỗi
+            } else {
+                // Lưu thông tin người dùng vào localStorage
+                const newUser = { fullName, username, password, role, id };
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+                users.push(newUser);
+                localStorage.setItem('users', JSON.stringify(users));
+
+                // Thông báo thành công và reset form
+                alert('Đăng ký thành công!');
+                document.getElementById('registerForm').reset();
+                document.getElementById('usernameError').style.display = 'none'; // Ẩn thông báo lỗi
+            }
+        });
+    </script>
+
+</body>
+
+</html>
